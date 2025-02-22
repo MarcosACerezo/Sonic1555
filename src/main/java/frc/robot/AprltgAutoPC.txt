@@ -1,0 +1,33 @@
+AprilTags Values & locations:
+1. IDs 1 & 2: Blue SOURCE
+2. IDs 3: Red SPEAKER Right
+3. IDs 4: Red SPEAKER Center
+4. IDs 5: Red AMP
+5. IDs 6: Blue AMP
+6. IDs 7: Blue SPEAKER Center
+7. IDs 8: Blue SPEAKER Left
+8. IDs 9 & 10: Red SOURCE
+9: IDs 11: Red STAGE Left
+10. IDs 12: Red STAGE Right
+11. IDs 13: Red STAGE Center
+12. IDs 14: Blue STAGE Center
+13. IDs 15: Blue STAGE Left
+14. IDs 16: Blue STAGE Right
+
+Pseudo Code:
+
+When detect ANY AprilTag:
+    IF button_Undetermined == TRUE:
+        IF AprilTag == 1 or 2:
+            align-with-CHUTE-on-SOURCE.code_nonsense
+        ELIF AprilTag == 6:
+            drive-into-and-align-with-AMP
+        ELIF AprilTag == 7 or 8: 
+            butt-against-subwoofer
+            reverse-for-alignment
+            shoot-into-speaker
+        ELIF AprilTag == 14 or 15 or 16:
+            determine-location-relative-to-AprilTag
+            align-center-to-AprilTag
+            deploy-hanging-device
+            hang-itself
