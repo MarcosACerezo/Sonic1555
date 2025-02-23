@@ -1,36 +1,38 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkBase.IdleMode;
-import com.revrobotics.CANSparkLowLevel;
-import com.revrobotics.CANSparkMax;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class LauncherSubsystem extends SubsystemBase {
 
-    private CANSparkMax m_topMotor;
-    private CANSparkMax m_bottomMotor;
-
+    private SparkMax m_topMotor;
+    private SparkMax m_bottomMotor;
+    private SparkMaxConfig config;
     private double m_launcherRunning;
 
     /** Creates a new LauncherSubsystem. */
     public LauncherSubsystem() {
         // create two new SPARK MAXs and configure them
+        config = new SparkMaxConfig();
+        //both motors use the same intake parameters
+        config
+            .idleMode(IdleMode.kBrake)
+            .inverted(false)
+            .smartCurrentLimit(Constants.Launcher.kCurrentLimit);
+
         m_topMotor =
-            new CANSparkMax(Constants.Launcher.kTopCanId, CANSparkLowLevel.MotorType.kBrushless);
-        m_topMotor.setInverted(false);
-        m_topMotor.setSmartCurrentLimit(Constants.Launcher.kCurrentLimit);
-        m_topMotor.setIdleMode(IdleMode.kBrake);
-
-        // m_topMotor.burnFlash();
-
+            new SparkMax(Constants.Launcher.kTopCanId, MotorType.kBrushless);
         m_bottomMotor =
-            new CANSparkMax(Constants.Launcher.kBottomCanId, CANSparkLowLevel.MotorType.kBrushless);
-        m_bottomMotor.setInverted(false);
-        m_bottomMotor.setSmartCurrentLimit(Constants.Launcher.kCurrentLimit);
-        m_bottomMotor.setIdleMode(IdleMode.kBrake);
+            new SparkMax(Constants.Launcher.kBottomCanId, MotorType.kBrushless);
 
-        // m_bottomMotor.burnFlash();
+        m_topMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        m_bottomMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         m_launcherRunning = 0;
     }

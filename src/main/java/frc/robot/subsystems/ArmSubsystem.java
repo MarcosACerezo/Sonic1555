@@ -26,8 +26,6 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 //used for configurations of the spark objects
 import com.revrobotics.spark.config.SparkMaxConfig;
 
-import com.revrobotics.spark.SparkLowLevel;
-
 public class ArmSubsystem extends SubsystemBase {
     private SparkMaxConfig config;
     private SparkMax m_motor;
@@ -42,7 +40,6 @@ public class ArmSubsystem extends SubsystemBase {
 
     private TrapezoidProfile.State m_targetState;
     private double m_feedforward;
-    private double m_manualValue;
 
     /** Creates a new ArmSubsystem. */
     public ArmSubsystem() {
@@ -153,7 +150,6 @@ public class ArmSubsystem extends SubsystemBase {
                 m_encoder.getPosition() + Constants.Arm.kArmZeroCosineOffset, m_targetState.velocity);
         // set the power of the motor
         m_motor.set(_power + (m_feedforward / 12.0));
-        m_manualValue = _power; // this variable is only used for logging or debugging if needed
     }
 
     public double armPosition() {

@@ -1,6 +1,6 @@
 package frc.robot;
 
-import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -9,7 +9,6 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
-import frc.lib.PIDGains;
 
 public class Constants {
     public static final class LEDs {
@@ -39,42 +38,6 @@ public class Constants {
     }
 
     public static final class Drivetrain {
-        // public static final int kFrontLeftCanId = 1;
-        // public static final int kFrontRightCanId = 4;
-        // public static final int kRearLeftCanId = 3;
-        // public static final int kRearRightCanId = 2;
-
-        // public static final boolean kFrontLeftInverted = false;
-        // public static final boolean kFrontRightInverted = true;
-        // public static final boolean kRearLeftInverted = false;
-        // public static final boolean kRearRightInverted = true;
-        
-        // public static final PIDGains kDriveGains = new PIDGains(0.8, 0.0, 0.0);
-
-        // public static final int kCurrentLimit = 40; //Lower to 30 if motors pop the breaker again. Initial value was 55
-        // public static final double kTurningScale = 0.5;
-        // public static final double kDistanceConstant = 6 * Math.PI / 42;
-        // public static final int kStart = 0;
-
-        // public static final double kDistanceConversion = 1 / 6 * Math.PI;
-        // public static final double kP = 1.2;
-        // public static final double kI = 0.5;
-        // public static final double kD = 0.35;
-        // public static final double turnP = 0.5;
-        // public static final double turnI = 0.0;
-        // public static final double turnD = 0.0;
-        // public static double errorSumL = 0;
-        // public static double errorSumR = 0;
-        // public static double lastErrorL = 0;
-        // public static double lastErrorR = 0;
-        // public static double errorSum = 0;
-        // public static double lastError = 0;
-        // public static final double ilimit = 1;
-        // public static double lastTimeStampL = Timer.getFPGATimestamp();
-        // public static double lastTimeStamp = Timer.getFPGATimestamp();
-        // public static double lastTimeStampR = Timer.getFPGATimestamp();
-        // public static final double speedLimit = .15;
-
         // speed limiters to make stuff move at certain speeds.
         public static final double kMaxSpeedMPSRegular = 4.8; // regular speed mode; return to 4.8 eventually
         public static final double kMaxSpeedMPSSlow = 1.0; // used in super slow mode, for finer control
@@ -176,13 +139,13 @@ public class Constants {
         public static final boolean kMotorInverted = true;
         public static final int kCurrentLimit = 80;
 
-        public static final PIDGains kPositionGains = new PIDGains(1.0, 0.0, 0.0);
+        public static final double kP = 1.0;
+        public static final double kI = 0.0;
+        public static final double kD = 0.0;
+        
         public static final double kPositionTolerance = 0.5;
-
         public static final double kIntakePower = 0.7;
-
         public static final double kRetractDistance = -3.5;
-
         public static final double kShotFeedTime = 1.0;
     }
     

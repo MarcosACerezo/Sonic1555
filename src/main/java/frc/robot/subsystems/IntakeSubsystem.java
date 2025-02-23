@@ -1,23 +1,25 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkBase.ControlType;
-import com.revrobotics.CANSparkBase.IdleMode;
-import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkPIDController;
-import com.revrobotics.SparkRelativeEncoder;
+import com.revrobotics.spark.SparkClosedLoopController;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.SparkBase.ControlType;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.lib.PIDGains;
 import frc.robot.Constants;
 
 public class IntakeSubsystem extends SubsystemBase {
 
-    private CANSparkMax m_motor;
+    private SparkMax m_motor;
+    private SparkMaxConfig config;
     private RelativeEncoder m_encoder;
-    private SparkPIDController m_controller;
+    private SparkClosedLoopController m_controller;
 
     private boolean m_positionMode;
     private double m_targetPosition;
@@ -25,18 +27,19 @@ public class IntakeSubsystem extends SubsystemBase {
 
     /** Creates a new IntakeSubsystem. */
     public IntakeSubsystem() {
+        config = new SparkMaxConfig();
+        config
+            .idleMode(IdleMode.kBrake)
+            .inverted(false)
+            .smartCurrentLimit(Constants.Intake.kCurrentLimit);
+        config.closedLoop
+            .pid(Constants.Intake.kP, Constants.Intake.kI, Constants.Intake.kD);
         // create a new SPARK MAX and configure it
-        m_motor = new CANSparkMax(Constants.Intake.kCanId, MotorType.kBrushless);
-        m_motor.setInverted(false);
-        m_motor.setSmartCurrentLimit(Constants.Intake.kCurrentLimit);
-        m_motor.setIdleMode(IdleMode.kBrake);
+        m_motor = new SparkMax(Constants.Intake.kCanId, MotorType.kBrushless);
+        m_encoder = m_motor.getEncoder();
+        m_controller = m_motor.getClosedLoopController();
 
-        m_encoder = m_motor.getEncoder(SparkRelativeEncoder.Type.kHallSensor, 42);
-
-        m_controller = m_motor.getPIDController();
-        PIDGains.setSparkMaxGains(m_controller, Constants.Intake.kPositionGains);
-
-        // m_motor.burnFlash();
+        m_motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         m_positionMode = false;
         m_targetPosition = m_encoder.getPosition();
