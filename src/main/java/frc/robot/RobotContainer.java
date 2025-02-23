@@ -45,7 +45,7 @@ public class RobotContainer {
     private XboxController m_DriveController = new XboxController(Constants.OperatorInter.DriverController);
     private XboxController m_ManipController = new XboxController(Constants.OperatorInter.ManipController);
 
-    private final SendableChooser<Command> autoChooser;
+    private final SendableChooser<Command> autoChooser;//TODO Find out if you need an autochooser object
 
     public RobotContainer() {
         autoChooser = AutoBuilder.buildAutoChooser();
